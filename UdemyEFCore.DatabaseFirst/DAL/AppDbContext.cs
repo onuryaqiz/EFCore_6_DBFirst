@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,12 @@ namespace UdemyEFCore.DatabaseFirst.DAL
         }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) // Veritabanı ile ilgili tüm ayarlar DbContextOptions üzerinden yapılacak. Base ile beraber miras aldığımız sınıfın Constructor'ına gönderiyoruz. 
         {
+
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(DbContextInitializer.Configuration.GetConnectionString("SqlCon"));
 
         }
     }

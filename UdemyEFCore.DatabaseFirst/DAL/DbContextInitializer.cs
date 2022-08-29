@@ -19,8 +19,8 @@ namespace UdemyEFCore.DatabaseFirst.DAL
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true); // Assembly içindeki uygulamanın çalıştığı klasörü al , appsettings.json dosyasını al . Bu dosya her zaman olmayacağı için , true yaptık. Bu dosya olabilir veya olmayabilir. Dosyada her değişiklikte yüklensin mi ? true. 
 
             Configuration = builder.Build();
-            OptionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            OptionsBuilder.UseSqlServer(Configuration.GetConnectionString("SqlCon"));
+            //OptionsBuilder = new DbContextOptionsBuilder<AppDbContext>(); // AppDbContext'te override ettiğimiz için buraya gerek kalmadı . 
+            //OptionsBuilder.UseSqlServer(Configuration.GetConnectionString("SqlCon"));
 
         }
     }
