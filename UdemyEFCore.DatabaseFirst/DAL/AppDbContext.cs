@@ -11,10 +11,13 @@ namespace UdemyEFCore.DatabaseFirst.DAL
     {
         public DbSet<Product> Products { get; set; } // Property ile DB'deki tablo ismi aynı ise EFCore bunu eşleştirir.
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) // SQL Server'a bağlantı cümleciği.
+        public AppDbContext() // Parametre alan Constructor tanımladığımız için Default olarak Constructor tanımladık. İhtiyacımız olabilir. 
         {
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=UdemyEFCoreDatabaseFirstDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-        }
 
+        }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) // Veritabanı ile ilgili tüm ayarlar DbContextOptions üzerinden yapılacak. Base ile beraber miras aldığımız sınıfın Constructor'ına gönderiyoruz. 
+        {
+
+        }
     }
 }

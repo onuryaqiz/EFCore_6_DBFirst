@@ -3,7 +3,9 @@
 using UdemyEFCore.DatabaseFirst.DAL;
 using Microsoft.EntityFrameworkCore;
 
-using (var _context = new AppDbContext()) // Veritabanı ile ilgili işlemleri buradan gerçekleştireceğiz.
+DbContextInitializer.Build(); // Nesne örneği üretmeden sınıf üzerinden erişebiliriz. Static olarak vermemizin sebebi de bundandır.
+
+using (var _context = new AppDbContext(DbContextInitializer.OptionsBuilder.Options)) // Veritabanı ile ilgili işlemleri buradan gerçekleştireceğiz.
 {
     var products = await _context.Products.ToListAsync(); // Veritabanındaki Product tablosu ile haberleş demektir. 
 
