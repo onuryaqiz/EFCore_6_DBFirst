@@ -12,7 +12,8 @@ namespace UdemyEFCore.CodeFirst.Migrations
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder) // Remove Migration : Hiçbir zaman migration'ı en son yapılandan silmeliyiz. Eğer yapılan migration database'e aktarıldıysa , bir önceki migration'a 
+                                                                      // gidip Update edip sonrasında remove-migration komutunu çalıştırmalıyız ! Önemli
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +45,7 @@ namespace UdemyEFCore.CodeFirst.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 #pragma warning restore 612, 618
         }
