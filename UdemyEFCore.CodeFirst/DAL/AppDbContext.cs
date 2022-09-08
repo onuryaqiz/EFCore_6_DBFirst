@@ -14,6 +14,7 @@ namespace UdemyEFCore.CodeFirst.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            Initializer.Build(); // Sadece Console'da yapılıyor. Diğerlerinde yapmamıza gerek yok ! Worker servislerde de bunu tanımlamamıza gerek yoktur. 
             optionsBuilder.UseSqlServer(Initializer.Configuration.GetConnectionString("SqlCon")); // veritabanı yolu 
         }
 
