@@ -7,28 +7,34 @@ Initializer.Build(); // Build methodu ile appsettings.json'u okunabilir hale get
 
 using (var context = new AppDbContext())
 {
-    //var products = await context.Products.ToListAsync();
+    var products = await context.Products.AsNoTracking().ToListAsync(); // EFCore tarafından tüm datalar Track edilir. // DB'den aldığımız verilerde CRUD işlemleri yapmayacaksak , EFCore tarafından memory'de track etmemesi sağlanır.
+                                                                        // RAM'de fazla yer kaplamayı engellmiş oluruz.
+
+
+
+
 
     //products.ForEach(p =>
     //{
-    //    var state = context.Entry(p).State; // p entity'sinin State'ini verir.
-    //    Console.WriteLine($"{p.Id}:{p.Name}:{p.Price}:{p.Stock} state : {state}"); // State : Unchanged : EFCore tarafından listeleme yaptığımızda , DB'den datayı aldığımızda datayı unchanged olarak atar. Yani değişmemiş. 
+
+    //    p.Stock += 100; // EFCore memory'de track ettiği her product'ın memory'sinde Stock'una 100 ekledi. 
+    //    Console.WriteLine($"{p.Id} : {p.Name}-{p.Price}-{p.Stock}");
 
 
     //});
-    context.Update(new Product() { Id = 5, Name = "Defter", Price = 500, Stock = 500, Barcode = 500 }); // Track edilmeyen bir nesne . EFCore tarafından Track edilmez. Bu nedenle Update methodunu kullanırız!
 
-    //context.Update(product); // Track edilmeyen datalar için var . 
-
-    await context.SaveChangesAsync();
-    //Console.WriteLine($"SaveChanges Sonraki state:{context.Entry(product).State}");
-
-    //context.Entry(newProduct).State = EntityState.Added; // Buradaki komut ile await context.AddAsync(newProcuct); komutu aynıdır.
-    //await context.AddAsync(newProduct);
+    context.ChangeTracker.Entries().ToList().ForEach(e => // e memory'de track edilen nesneyi temsil ediyor.
 
 
+    {
+        if (e.Entity is Product product) // is keyword'ü herhangi bir nesnenin başka bir nesneye cast(dönüştürülme) edilip edilmeyeceğini kontrol eder . Edemez ise false olarak döner. true ise dönüştürmüş olduğu nesneyi product'a atar.
+        {
+            Console.WriteLine($"{product.Id} : {product.Name}-{product.Price}-{product.Stock}");
+        }
 
+    }); // Buradaki değişiklik DB'ye yansır . Böylece 10.satırdaki kod gibi memory yormadan değişiklik işlemini yapmış oluruz.
 
+    context.SaveChanges();
 
 
 }
