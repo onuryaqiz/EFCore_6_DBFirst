@@ -16,16 +16,12 @@ using (var context = new AppDbContext())
 
 
     //});
-    var product = await context.Products.FirstAsync();
-    Console.WriteLine($"İlk state:{context.Entry(product).State}");
-    context.Entry(product).State = EntityState.Detached; // Buradaki komut ile detached olarak track ettik. Yani bu değişiklik DB'ye yansımayacak. SaveChanges desek bilere DB'de görmeyeceğiz.
-    Console.WriteLine($"Son state:{context.Entry(product).State}");
+    context.Update(new Product() { Id = 5, Name = "Defter", Price = 500, Stock = 500, Barcode = 500 }); // Track edilmeyen bir nesne . EFCore tarafından Track edilmez. Bu nedenle Update methodunu kullanırız!
 
-    product.Name = "Kitap 2000";
-
+    //context.Update(product); // Track edilmeyen datalar için var . 
 
     await context.SaveChangesAsync();
-    Console.WriteLine($"SaveChanges Sonraki state:{context.Entry(product).State}");
+    //Console.WriteLine($"SaveChanges Sonraki state:{context.Entry(product).State}");
 
     //context.Entry(newProduct).State = EntityState.Added; // Buradaki komut ile await context.AddAsync(newProcuct); komutu aynıdır.
     //await context.AddAsync(newProduct);
