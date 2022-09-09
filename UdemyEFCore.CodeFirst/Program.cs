@@ -19,12 +19,12 @@ using (var context = new AppDbContext())
     var product = await context.Products.FirstAsync();
     Console.WriteLine($"İlk state:{context.Entry(product).State}");
 
-    product.Stock = 1000; // EFCore Track esnasında Update dememize gerek kalmadan class içerisindeki değişikliği algılıyor . Ve modified olarak değiştiriyor, Update işlemini gerçekleştiriyor. 
-                          // Son State unchanged olarak bu yüzden gözüküyor. 
+    context.Remove(product);
+    //context.Entry(product).State = EntityState.Deleted;
     Console.WriteLine($"Son state:{context.Entry(product).State}"); // EFCore DB'den datayı okuğunda unchanged state veriyor. Memory'nin stage etmediğine de detach deniyor. Track edilmeyen Detached olarak geliyor.
 
     await context.SaveChangesAsync();
-    Console.WriteLine($"SaveChanges Sonraki state:{context.Entry(product).State}"); // Unchanged olarak gelir. Veritabanındaki datayı yukarıda ekledik ve DB ile eşit hala geldiği için unchanged olarak gözüktü.
+    Console.WriteLine($"SaveChanges Sonraki state:{context.Entry(product).State}"); // Bu sefer de delete işlemi yaptığımız için Detached oldu . Artık bu data DB'de silindiği için datayı yakalayamadı.EFCore tarafından Track edilmiyor kısacası.
 
     //context.Entry(newProduct).State = EntityState.Added; // Buradaki komut ile await context.AddAsync(newProcuct); komutu aynıdır.
     //await context.AddAsync(newProduct);
