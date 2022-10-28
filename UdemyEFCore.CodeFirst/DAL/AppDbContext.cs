@@ -25,5 +25,23 @@ namespace UdemyEFCore.CodeFirst.DAL
             optionsBuilder.UseSqlServer(Initializer.Configuration.GetConnectionString("SqlCon")); // veritabanı yolu 
         }
 
+        public override int SaveChanges() // Ortak olan yapıları SaveChanges'ten önce state göre atayabiliriz. CreatedDate Added olduğu için yazmadığımız halde DB'ye eklemiş oldu.
+        {
+            ChangeTracker.Entries().ToList().ForEach(e => 
+
+
+            {
+                if (e.Entity is Product product)
+                { 
+                if (e.State == EntityState.Added) 
+                {
+                    product.CreatedDate = DateTime.Now;
+                }
+            }
+
+        }); 
+
+            return base.SaveChanges();
+        }
     }
 }
