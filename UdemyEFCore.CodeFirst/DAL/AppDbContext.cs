@@ -28,7 +28,8 @@ namespace UdemyEFCore.CodeFirst.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder) // Fluent API
         {
             // modelBuilder.Entity<Product>().ToTable("ProductTBB", "productstbb"); // Fluent API ile tabloları ekleme .
-        
+
+            modelBuilder.Entity<Product>().HasKey(x => x.Product_Id); //  Property üzerine Key yazmak ile buradaki işlem aynıdır. Buradaki Fluent API'dir. Key ise Data Annotations attribute'tur.
         }
         public override int SaveChanges() // Ortak olan yapıları SaveChanges'ten önce state göre atayabiliriz. CreatedDate Added olduğu için yazmadığımız halde DB'ye eklemiş oldu.
         {
