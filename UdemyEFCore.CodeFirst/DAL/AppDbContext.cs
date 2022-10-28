@@ -25,6 +25,11 @@ namespace UdemyEFCore.CodeFirst.DAL
             optionsBuilder.UseSqlServer(Initializer.Configuration.GetConnectionString("SqlCon")); // veritabanı yolu 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder) // Fluent API
+        {
+            // modelBuilder.Entity<Product>().ToTable("ProductTBB", "productstbb"); // Fluent API ile tabloları ekleme .
+        
+        }
         public override int SaveChanges() // Ortak olan yapıları SaveChanges'ten önce state göre atayabiliriz. CreatedDate Added olduğu için yazmadığımız halde DB'ye eklemiş oldu.
         {
             ChangeTracker.Entries().ToList().ForEach(e => 
