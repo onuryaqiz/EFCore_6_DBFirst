@@ -11,7 +11,7 @@ namespace UdemyEFCore.CodeFirst.DAL
     [Table("ProductTb",Schema ="products")] // Data Annotations
     public class Product
     {
-        [Key]
+       
         public int Product_Id { get; set; } // EFcore default olarak primary key alanına karşılık gelecek bir property bekler. ProductId olarak belirtilebilir. Entity ismi ile aynı olacak şekilde.
 
     
